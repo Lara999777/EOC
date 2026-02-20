@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENVISION 담당자 리스트</title>
+    <style>
+        /* [1. 기본 설정] 폰트 및 컬러 팔레트 (Modern UI) */
+        :root {
+            --primary-color: #1e293b;
+            --secondary-color: #64748b;
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --accent-color: #2563eb;
+            
+            /* 파스텔톤 배지 색상 개편 */
+            --badge-blue-bg: #e0f2fe; --badge-blue-text: #0284c7;
+            --badge-green-bg: #dcfce7; --badge-green-text: #16a34a;
+            --badge-purple-bg: #f3e8ff; --badge-purple-text: #9333ea;
+            --badge-orange-bg: #ffedd5; --badge-orange-text: #ea580c;
+            --badge-teal-bg: #ccfbf1; --badge-teal-text: #0d9488;
+            --badge-growth-bg: #ede9fe; --badge-growth-text: #6d28d9; 
+            --badge-pink-bg: #fce7f3; --badge-pink-text: #db2777;
+            --badge-dark-bg: #e2e8f0; --badge-dark-text: #475569;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            margin: 0;
+            padding: 50px 20px;
+            color: #334155;
+            font-size: 15px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 46px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+        }
+        p.subtitle {
+            color: var(--secondary-color);
+            font-size: 18px;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-top: 60px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #cbd5e1;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-right: 15px;
+            letter-spacing: -0.5px;
+        }
+        .section-badge {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* [2. 그리드 레이아웃] */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 28px;
+        }
+
+        /* [3. AM 카드 디자인] */
+        .card {
+            background: var(--card-bg);
+            padding: 28px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            border-color: #cbd5e1;
+        }
+
+        .am-header { margin-bottom: 16px; }
+        .am-name {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .am-info {
+            font-size: 15px;
+            color: #475569;
+            margin-top: auto;
+            padding-top: 18px;
+            border-top: 1px solid #f1f5f9;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* 배지 스타일 */
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-right: 6px;
+            margin-bottom: 8px;
+            letter-spacing: -0.2px;
+        }
+        .bg-blue { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+        .bg-green { background: var(--badge-green-bg); color: var(--badge-green-text); }
+        .bg-purple { background: var(--badge-purple-bg); color: var(--badge-purple-text); }
+        .bg-orange { background: var(--badge-orange-bg); color: var(--badge-orange-text); }
+        .bg-teal { background: var(--badge-teal-bg); color: var(--badge-teal-text); }
+        .bg-growth { background: var(--badge-growth-bg); color: var(--badge-growth-text); }
+        .bg-pink { background: var(--badge-pink-bg); color: var(--badge-pink-text); }
+        .bg-dark { background: var(--badge-dark-bg); color: var(--badge-dark-text); }
+
+        .card.pim {
+            background: linear-gradient(to bottom right, #ffffff, #eff6ff);
+            border: 1px solid #bfdbfe;
+        }
+        .card.pim .am-name { color: #1d4ed8; }
+        .card.pim .am-info { border-top-color: #dbeafe; color: #1e40af; }
+
+        /* [4. Product 카드 스타일] */
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 20px -5px rgba(0,0,0,0.08);
+        }
+        
+        .product-header {
+            background: #f8fafc;
+            padding: 22px 28px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap; 
+            gap: 10px;
+        }
+        .product-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .product-icon { 
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .product-desc {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            margin-left: 6px;
+            background: #e2e8f0;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .role-list {
+            padding: 25px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            flex-grow: 1;
+        }
+
+        .role-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 15px;
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 12px;
+        }
+        .role-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .role-title {
+            color: #64748b;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+            width: 140px; 
+            white-space: nowrap; 
+        }
+        .role-members {
+            color: #334155;
+            font-weight: 600;
+            text-align: right;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        
+        .team-lead {
+            font-weight: 900;
+            color: var(--accent-color);
+            background: #eff6ff;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .note {
+            margin-top: auto;
+            font-size: 13px;
+            color: #475569;
+            background: #f8fafc;
+            padding: 14px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+            letter-spacing: -0.3px;
+            border: 1px solid #e2e8f0;
+        }
+        .note strong { color: #0f172a; font-weight: 800; }
+
+        @media (max-width: 768px) {
+            .grid-layout { grid-template-columns: 1fr; }
+            .role-item { flex-direction: column; gap: 6px; }
+            .role-title { width: 100%; white-space: normal; } 
+            .role-members { text-align: left; }
+            /* 한줄 유지 해제 (모바일 환경 호환) */
+            .role-members[style*="white-space: nowrap"] { white-space: normal !important; word-break: keep-all; }
+            .product-desc { display: inline-block; margin-left: 0; margin-top: 6px; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <header>
+        <h1>ENVISION</h1>
+        <p class="subtitle">담당자 조직도 및 제품군 연락망</p>
+    </header>
+
+    <div class="section-header">
+        <div class="section-title">Account Manager & PIM</div>
+        <div class="section-badge">Client Side</div>
+    </div>
+    
+    <div class="grid-layout">
+        <div class="card">
+            <div class="am-header"><div class="am-name">Robby</div></div>
+            <div>
+                <span class="badge bg-blue">디스플레이</span>
+                <span class="badge bg-green">2차전지</span>
+            </div>
+            <div class="am-info">HBT, LG-PRI 외 담당</div>
+        </div>
+
+        <div class="card">
+            <div class="am-header"><div class="am-name">Zhao</div></div>
+            <div><span class="badge bg-teal">Smart factory</span></div>
+            <div class="am-info">Dealer 업체 외 담당</div>
+        </div>
+
+        <div class="card">
+            <div class="am-header"><div class="am-name">David</div></div>
+            <div>
+                <span class="badge bg-blue">디스플레이</span>
+                <span class="badge bg-purple">3P</span>
+            </div>
+            <div class="am-info">ANI, 영우DSP, 넥스틴 외</div>
+        </div>
+
+        <div class="card">
+            <div class="am-header"><div class="am-name">Sean</div></div>
+            <div>
+                <span class="badge bg-green">2차전지</span>
+                <span class="badge bg-purple">3P</span>
+            </div>
+            <div class="am-info">인스케이프, 고영테크 외</div>
+        </div>
+
+        <div class="card">
+            <div class="am-header"><div class="am-name">Vincent</div></div>
+            <div>
+                <span class="badge bg-blue">디스플레이</span>
+                <span class="badge bg-green">2차전지</span>
+            </div>
+            <div class="am-info">DIT, 그림, HBS 외</div>
+        </div>
+
+        <div class="card">
+            <div class="am-header"><div class="am-name">James</div></div>
+            <div>
+                <span class="badge bg-purple">3P</span>
+                <span class="badge bg-orange">골프</span>
+                <span class="badge bg-dark">ITS</span>
+            </div>
+            <div class="am-info">ATI, 골프존 외 담당</div>
+        </div>
+
+        <div class="card">
+            <div class="am-header"><div class="am-name">Jay</div></div>
+            <div><span class="badge bg-teal">Smart factory</span></div>
+            <div class="am-info">서울엔지니어링, 이노비즈 외</div>
+        </div>
+
+        <div class="card">
+            <div class="am-header"><div class="am-name">Damon</div></div>
+            <div>
+                <span class="badge bg-purple">3P</span>
+                <span class="badge bg-teal">Smart factory</span>
+            </div>
+            <div class="am-info">삼성전기, 성우테크론 외</div>
+        </div>
+
+        <div class="card">
+            <div class="am-header"><div class="am-name">Calvin</div></div>
+            <div><span class="badge bg-purple">3P</span></div>
+            <div class="am-info">픽셀, 시냅스이미징 외</div>
+        </div>
+
+        <div class="card pim">
+            <div class="am-header"><div class="am-name">PIM 팀</div></div>
+            <div>
+                <span class="badge bg-growth">성장성 고객</span>
+                <span class="badge bg-pink">Inbound</span>
+            </div>
+            <div class="am-info">
+                <strong>Mark, Dean, Annie, Sunny</strong><br>
+                워프비전, 코닝나노프로텍 외
+            </div>
+        </div>
+    </div>
+
+
+    <div class="section-header">
+        <div class="section-title">제품군별 담당자 (Product)</div>
+        <div class="section-badge">Product Side</div>
+    </div>
+
+    <div class="grid-layout">
+        
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-name"><span class="product-icon">💡</span> 조명 (Lighting)</div>
+            </div>
+            <div class="role-list">
+                <div class="role-item">
+                    <span class="role-title">제품기술지원</span>
+                    <span class="role-members" style="white-space: nowrap;"><span class="team-lead">Steven</span>, Kyu, Billy, Felix</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">사업개발</span>
+                    <span class="role-members">Sam</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">영업전략</span>
+                    <span class="role-members">Robby</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">품질관리</span>
+                    <span class="role-members">Derek</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">홍보전략</span>
+                    <span class="role-members">Mary</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-name"><span class="product-icon">🧊</span> 3D</div>
+            </div>
+            <div class="role-list">
+                <div class="role-item">
+                    <span class="role-title">영업 문의</span>
+                    <span class="role-members"><span class="team-lead">Brandon</span></span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">레이저 프로파일</span>
+                    <span class="role-members">Woody</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">LCI</span>
+                    <span class="role-members">D.Na</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-name"><span class="product-icon">🏭</span> Smart Factory</div>
+            </div>
+            <div class="role-list">
+                <div class="role-item">
+                    <span class="role-title">기술지원</span>
+                    <span class="role-members"><span class="team-lead">Jacob</span>, Philip</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">영업/신규발굴</span>
+                    <span class="role-members">Zhao, Jay</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">제품평가/개선</span>
+                    <span class="role-members">Jerry, Olaf</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">홍보전략</span>
+                    <span class="role-members">Mary</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-name"><span class="product-icon">📡</span> CIS</div>
+            </div>
+            <div class="role-list">
+                <div class="role-item">
+                    <span class="role-title">사업개발</span>
+                    <span class="role-members"><span class="team-lead">Lena</span></span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">기술지원</span>
+                    <span class="role-members">Owen, Harry, Jude</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">영업전략</span>
+                    <span class="role-members">Vincent</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">품질관리</span>
+                    <span class="role-members">Logan</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-name">
+                    <span class="product-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2" fill="#dcfce7"></rect>
+                            <rect x="9" y="9" width="6" height="6"></rect>
+                            <line x1="9" y1="1" x2="9" y2="4"></line>
+                            <line x1="15" y1="1" x2="15" y2="4"></line>
+                            <line x1="9" y1="20" x2="9" y2="23"></line>
+                            <line x1="15" y1="20" x2="15" y2="23"></line>
+                            <line x1="20" y1="9" x2="23" y2="9"></line>
+                            <line x1="20" y1="14" x2="23" y2="14"></line>
+                            <line x1="1" y1="9" x2="4" y2="9"></line>
+                            <line x1="1" y1="14" x2="4" y2="14"></line>
+                        </svg>
+                    </span>
+                    3P 
+                    <span class="product-desc">PCB, Substrate, Packaging</span>
+                </div>
+            </div>
+            <div class="role-list">
+                <div class="role-item">
+                    <span class="role-title">영업전략</span>
+                    <span class="role-members"><span class="team-lead">David</span></span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">고객/신규발굴</span>
+                    <span class="role-members">James, Brandon, Sean</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">기술지원</span>
+                    <span class="role-members">Andy, Sawyer, Andrew</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">차세대개발</span>
+                    <span class="role-members">Tim</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">홍보전략</span>
+                    <span class="role-members">Ash</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-name"><span class="product-icon">🔋</span> Battery</div>
+            </div>
+            <div class="role-list">
+                <div class="role-item">
+                    <span class="role-title">영업전략</span>
+                    <span class="role-members"><span class="team-lead">Robby</span></span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">사업전략</span>
+                    <span class="role-members">Vincent</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">로드맵/JTBD</span>
+                    <span class="role-members">Eric, Haig</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">영업</span>
+                    <span class="role-members">Sean, Jay</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">기술지원</span>
+                    <span class="role-members">Owen, Denny</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-name"><span class="product-icon">🎯</span> AutoFocus</div>
+            </div>
+            <div class="role-list">
+                <div class="role-item">
+                    <span class="role-title">개발/로드맵</span>
+                    <span class="role-members"><span class="team-lead">Lucas</span></span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">Actuator</span>
+                    <span class="role-members">Robin</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">Sensor</span>
+                    <span class="role-members">Noah</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">Controller</span>
+                    <span class="role-members">Peter</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">F/W</span>
+                    <span class="role-members">Taylor</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">설계</span>
+                    <span class="role-members">Heyden</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-name"><span class="product-icon">👁️‍🗨️</span> 비전기술</div>
+            </div>
+            <div class="role-list">
+                <div class="role-item">
+                    <span class="role-title">카메라 기술지원</span>
+                    <span class="role-members">Kyle</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">보드 기술지원</span>
+                    <span class="role-members">Dave</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">S/W 기술지원</span>
+                    <span class="role-members">Jace</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">렌즈 기술지원</span>
+                    <span class="role-members"><span class="team-lead">Mike</span>, Ron</span>
+                </div>
+                <div class="note">
+                    상세 제품별 VT담당자는 Confluence를 통해 확인 부탁드립니다.<br>
+                    <strong>*파일위치 :</strong> 95-VT 제품 담당자 - 🛠Make 제품 정보 페이지
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-name"><span class="product-icon">⛳</span> 골프</div>
+            </div>
+            <div class="role-list">
+                <div class="role-item">
+                    <span class="role-title">영업전략/고객관리</span>
+                    <span class="role-members"><span class="team-lead">James</span></span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">기술지원</span>
+                    <span class="role-members">Jerry, Jim</span>
+                </div>
+                <div class="role-item">
+                    <span class="role-title">차세대솔루션개발</span>
+                    <span class="role-members">Eric, Jerry, Jim</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <p style="text-align: center; color: #94a3b8; font-size: 14px; margin-top: 80px; font-weight: 500;">
+        Last Updated: 2026.02.13
+    </p>
+
+</div>
+
+</body>
+</html>
