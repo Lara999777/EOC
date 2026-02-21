@@ -329,10 +329,17 @@
 
             /* 비전기술(Wide Card) 모바일 대응 -> 2열 병합 유지, 내부 디자인 폰트 최적화 */
             .product-card.wide-card { grid-column: 1 / -1; flex-direction: column; }
-            .product-card.wide-card .product-header { width: 100%; border-right: none; flex-direction: row; justify-content: space-between; padding: 12px 15px; }
+            .product-card.wide-card .product-header { 
+                width: 100%; border-right: none; flex-direction: row; 
+                justify-content: space-between; padding: 12px 15px; 
+                box-sizing: border-box; 
+            }
             .product-card.wide-card .product-name { flex-direction: row; font-size: 15px; gap: 6px; }
             .product-card.wide-card .product-icon { font-size: 18px; }
-            .product-card.wide-card .product-content { width: 100%; padding: 15px; }
+            .product-card.wide-card .product-content { 
+                width: 100%; padding: 15px; 
+                box-sizing: border-box; 
+            }
             .product-card.wide-card .role-grid { grid-template-columns: 1fr 1fr; gap: 10px; } /* 비전기술 내부 항목 2열 배치 */
 
             /* Footer 영역 세로 정렬 */
